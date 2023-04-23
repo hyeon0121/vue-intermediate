@@ -1,48 +1,32 @@
 <template>
-  <div>
+  <section>
     <ul>
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem" class="shadow">
-        <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.textCompleted}"
-            @click="toggleComplete(todoItem)"></i>
-        <span v-bind:class="{textCompleted: todoItem.textCompleted}">
-          {{todoItem.item}}
-        </span>
-        <span class="removeBtn" @click="removeTodo(todoItem, index)">
-          <i class="fas fa-trash-alt"></i>
+      <li v-for="(todoItem, index) in propsdata" class="shadow" v-bind:key="todoItem.item">
+        <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
+        v-on:click="toggleComplete(todoItem, index)"></i>
+        <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
+        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
+          <i class="removeBtn fas fa-trash-alt"></i>
         </span>
       </li>
-      
     </ul>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
-  data() {
+  props: ['propsdata'],
+  data: function() {
     return {
-      todoItems : []
     }
   },
   methods: {
-    removeTodo(todoItem, index) {
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+    removeTodo: function(todoItem, index) {
+      this.$emit('removeItem', todoItem, index);
+      
     },
-    toggleComplete(todoItem) {
-      todoItem.completed = !todoItem.completed;
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-    }
-  },
-  created: function() {
-    if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-          console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-          //this.todoItems.push(localStorage.key(i));
-        }
-      }
+    toggleComplete: function(todoItem, index) {
+      this.$emit('toggleItem', todoItem, index);
     }
   }
 }
@@ -67,19 +51,19 @@ li {
 }
 .checkBtn {
   line-height: 45px;
+  /* color: black; */
   color: #62acde;
   margin-right: 5px;
 }
 .checkBtnCompleted {
-  color: #b3adad;
+  /* color: #62acde; */
+  color: black;
 }
 .textCompleted {
   text-decoration: line-through;
-  color: #b3adad;
 }
 .removeBtn {
   margin-left: auto;
   color: #de4343;
 }
-
 </style>
