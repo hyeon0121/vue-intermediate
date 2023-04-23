@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-    <todo-header></todo-header>
-    <todo-input></todo-input>
-    <todo-list></todo-list>
-    <todo-footer></todo-footer>
-
+    <TodoHeader></TodoHeader>
+    <TodoInput></TodoInput>
+    <TodoList></TodoList>
+    <TodoFooter></TodoFooter>
   </div>
 </template>
 
@@ -17,10 +16,10 @@ import TodoFooter from './components/TodoFooter.vue'
 export default {
   name: 'App',
   components: {
-    TodoHeader,
-    TodoInput,
-    TodoList,
-    TodoFooter
+    TodoHeader: TodoHeader,
+    TodoInput: TodoInput,
+    TodoList: TodoList,
+    TodoFooter: TodoFooter
   }
 }
 </script>
@@ -38,6 +37,6 @@ button {
   border-style: groove;
 }
 .shadow {
-  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03)
 }
 </style>
